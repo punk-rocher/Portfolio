@@ -1598,170 +1598,176 @@
     </footer>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script>
-      let stars = document.getElementById("stars");
-      let moon = document.getElementById("moon");
-      let mountains_behind = document.getElementById("mountains_behind");
-      let mountains_front = document.getElementById("mountains_front");
-
-      window.addEventListener("scroll", function () {
-        let value = window.scrollY;
-        stars.style.left = value * 0.25 + "px";
-        moon.style.top = value * 1.05 + "px";
-        mountains_behind.style.top = value * 0.5 + "px";
-        mountains_front.style.top = value * 0 + "px";
-      });
-
-      // Typing animation
-      const texts = ["Coder", "Designer", "Developer", "Freelancer"];
-      let count = 0;
-      let index = 0;
-      let currentText = "";
-      let letter = "";
-
-      (function type() {
-        if (count === texts.length) {
-          count = 0;
-        }
-        currentText = texts[count];
-        letter = currentText.slice(0, ++index);
-
-        document.querySelector(".typed-text").textContent = letter;
-        if (letter.length === currentText.length) {
-          count++;
-          index = 0;
-          setTimeout(type, 2000);
-        } else {
-          setTimeout(type, 100);
-        }
-      })();
-
-      // Initialize AOS
-      AOS.init({
-        duration: 800,
-        once: true,
-      });
-
-      // Add number counter animation
-      const stats = document.querySelectorAll(".stats-box h3");
-      stats.forEach((stat) => {
-        const target = parseInt(stat.textContent);
-        let count = 0;
-        const updateCount = () => {
-          const increment = target / 50;
-          if (count < target) {
-            count += increment;
-            stat.textContent = Math.ceil(count) + "+";
-            setTimeout(updateCount, 40);
-          } else {
-            stat.textContent = target + "+";
-          }
-        };
-        updateCount();
-      });
-
-      // Animate elements on scroll
-      const animateElements = document.querySelectorAll(".animate-up");
-
-      const observerOptions = {
-        threshold: 0.1,
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-          }
-        });
-      }, observerOptions);
-
-      animateElements.forEach((element) => {
-        observer.observe(element);
-      });
-
-      // Parallax effect for background
-      document.addEventListener("mousemove", (e) => {
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
-
-        document.querySelectorAll(".floating").forEach((element) => {
-          const speed = element.getAttribute("data-speed");
-          const x = window.innerWidth - mouseX * speed;
-          const y = window.innerHeight - mouseY * speed;
-
-          element.style.transform = `translate(${x}px, ${y}px)`;
-        });
-      });
-
-      // Add smooth scrolling
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute("href")).scrollIntoView({
-            behavior: "smooth",
-          });
-        });
-      });
-
-      // Mobile menu close on click
-      document.querySelectorAll(".nav-link").forEach((link) => {
-        link.addEventListener("click", () => {
-          const navbarCollapse = document.querySelector(".navbar-collapse");
-          if (navbarCollapse.classList.contains("show")) {
-            navbarCollapse.classList.remove("show");
-          }
-        });
-      });
-
-      // Disable parallax on mobile
-      function isMobile() {
-        return window.innerWidth <= 768;
-      }
-
-      // Update parallax function
-      document.addEventListener("mousemove", (e) => {
-        if (!isMobile()) {
-          const mouseX = e.clientX / window.innerWidth;
-          const mouseY = e.clientY / window.innerHeight;
-
-          document.querySelectorAll(".floating").forEach((element) => {
-            const speed = element.getAttribute("data-speed");
-            const x = window.innerWidth - mouseX * speed;
-            const y = window.innerHeight - mouseY * speed;
-
-            element.style.transform = `translate(${x}px, ${y}px)`;
-          });
-        }
-      });
-
-      const swiper = new Swiper(".mySwiper", {
-        loop: false,
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const swiper = new Swiper(".mySwiper", {
+    loop: true,
+    slidesPerView: 1,
+    spaceBetween: 32,
+    centeredSlides: false,
+    grabCursor: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      576: {
         slidesPerView: 1,
-        spaceBetween: 32,
-        centeredSlides: false,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 32,
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 40,
-          },
-          1400: {
-            slidesPerView: 4,
-            spaceBetween: 40,
-          },
-        },
+        spaceBetween: 20,
+      },
+      768: {
+        slidesPerView: 2,
+        spaceBetween: 30,
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 40,
+      },
+    },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+  });
+
+ 
+  let stars = document.getElementById("stars");
+  let moon = document.getElementById("moon");
+  let mountains_behind = document.getElementById("mountains_behind");
+  let mountains_front = document.getElementById("mountains_front");
+
+  if (stars && moon && mountains_behind && mountains_front) {
+    window.addEventListener("scroll", function () {
+      let value = window.scrollY;
+      stars.style.left = value * 0.25 + "px";
+      moon.style.top = value * 1.05 + "px";
+      mountains_behind.style.top = value * 0.5 + "px";
+      mountains_front.style.top = value * 0 + "px";
+    });
+  }
+
+  
+  const typedTextElement = document.querySelector(".typed-text");
+  if (typedTextElement) {
+    const texts = ["Coder", "Designer", "Developer", "Freelancer"];
+    let count = 0;
+    let index = 0;
+    let currentText = "";
+    let letter = "";
+
+    (function type() {
+      if (count === texts.length) {
+        count = 0;
+      }
+      currentText = texts[count];
+      letter = currentText.slice(0, ++index);
+
+      typedTextElement.textContent = letter;
+      if (letter.length === currentText.length) {
+        count++;
+        index = 0;
+        setTimeout(type, 2000);
+      } else {
+        setTimeout(type, 100);
+      }
+    })();
+  }
+
+  
+  if (typeof AOS !== 'undefined') {
+    AOS.init({
+      duration: 800,
+      once: true,
+    });
+  }
+
+ const stats = document.querySelectorAll(".stats-box h3");
+  stats.forEach((stat) => {
+    const target = parseInt(stat.textContent);
+    let count = 0;
+    const updateCount = () => {
+      const increment = target / 50;
+      if (count < target) {
+        count += increment;
+        stat.textContent = Math.ceil(count) + "+";
+        setTimeout(updateCount, 40);
+      } else {
+        stat.textContent = target + "+";
+      }
+    };
+    updateCount();
+  });
+
+  
+  const animateElements = document.querySelectorAll(".animate-up");
+  const observerOptions = {
+    threshold: 0.1,
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+      }
+    });
+  }, observerOptions);
+
+  animateElements.forEach((element) => {
+    observer.observe(element);
+  });
+
+ 
+  const floatingElements = document.querySelectorAll(".floating");
+  if (!isMobile() && floatingElements.length > 0) {
+    document.addEventListener("mousemove", (e) => {
+      const mouseX = e.clientX / window.innerWidth;
+      const mouseY = e.clientY / window.innerHeight;
+
+      floatingElements.forEach((element) => {
+        const speed = element.getAttribute("data-speed") || 10;
+        const x = (window.innerWidth - mouseX * speed) / 100;
+        const y = (window.innerHeight - mouseY * speed) / 100;
+
+        element.style.transform = `translate(${x}px, ${y}px)`;
       });
-    </script>
+    });
+  }
+
+ 
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    });
+  });
+
+  
+  document.querySelectorAll(".nav-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const navbarCollapse = document.querySelector(".navbar-collapse.show");
+      if (navbarCollapse) {
+        navbarCollapse.classList.remove("show");
+      }
+    });
+  });
+function isMobile() {
+    return window.innerWidth <= 768;
+  }
+});
+if (typeof Swiper === 'undefined') {
+  console.error('Swiper library not loaded');
+} else {
+  console.log('Swiper initialized successfully');
+}
+</script>
   </body>
 </html>
